@@ -5,14 +5,18 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jokenpô</title>
+    <title>JANKENPON</title>
     <link rel="manifest" href="manifest.webmanifest">
     <style>
         html {
             font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
             font-weight: bold;
         }
-
+        
+        body {
+            background: #20defa;
+        }
+        
         nav ul {
             width: 100%;
             max-width: 600px;
@@ -21,11 +25,11 @@
             padding: 0;
             overflow: hidden;
         }
-
+        
         nav ul {
             display: flex;
         }
-
+        
         nav ul li {
             float: left;
             list-style: none;
@@ -40,17 +44,21 @@
             border-radius: 15px;
             margin: 2px;
         }
-
+        
         nav ul li:hover {
             background-color: aquamarine;
         }
-
-        .oponente {
+        
+        .cena {
             width: 100%;
             max-width: 600px;
             height: 300px;
             margin: 0 auto;
             border: black solid 2px;
+            background-image: url('./img/bg.gif');
+            background-repeat: no-repeat;
+            background-position: bottom;
+            background-size: cover;
             border-radius: 15px;
             background-color: aqua;
             margin-top: 5px;
@@ -63,13 +71,13 @@
             flex-direction: column;
             position: relative;
         }
-
+        
         #resultado {
             font-size: 25px;
             font-weight: bold;
             text-transform: uppercase;
         }
-
+        
         .pontuacao {
             display: flex;
             flex-direction: row;
@@ -78,7 +86,7 @@
             top: 0;
             left: 0;
         }
-
+        
         .moedas {
             display: flex;
             flex-direction: row;
@@ -87,12 +95,12 @@
             top: 0;
             right: 0;
         }
-
+        
         .pontuacao img,
         .moedas img {
             width: 20px;
         }
-
+        
         .pontuacao .label,
         .moedas .label {
             background: #fff;
@@ -106,7 +114,7 @@
             align-content: center;
             align-items: center;
         }
-
+        
         .resultadoLabel {
             background: #fff;
             border: solid 2px rgb(0, 0, 0);
@@ -114,17 +122,17 @@
             padding: 3px 10px;
             border-radius: 30px;
         }
-
+        
         .empate {
             background: rgb(0, 0, 0);
             color: #fff;
         }
-
+        
         .ganhou {
             background: rgb(9, 170, 0);
             color: #fff;
         }
-
+        
         .perdeu {
             background: rgb(214, 0, 0);
             color: #fff;
@@ -134,7 +142,7 @@
 
 <body>
     <section>
-        <div class="oponente">
+        <div class="cena">
             <div class="pontuacao">
                 <div class="label"><img src="./img/star.png"><span id="vitorias">0</span></div>
                 <div class="label"><img src="./img/defeat.png"><span id="derrotas">0</span></div>
@@ -144,7 +152,7 @@
             </div>
             <img src="./img/bot.png" alt="oponente" id="oponenteIMG">
             <br>
-            <span id="resultado">JOKENPÔ</span>
+            <span id="resultado">JANKENPON</span>
         </div>
         <nav>
             <ul>
@@ -156,17 +164,23 @@
 
     </section>
     <script>
-
         var vitorias = 0;
         var derrotas = 0;
         var moedas = 20;
         var ingame = 0;
+        const theme = new Audio('sounds/theme.mp3');
 
         var imgs = ["./img/pedra.png", "./img/papel.png", "./img/tesoura.png"]
-        var palavra = ["JO", "-KEN", "-PÔ"]
+        var palavra = ["JAN", "-KEN", "-PON"]
 
         function semMoedas() {
             alert('Você está sem moedas!');
+        }
+
+        function playTheme() {
+            theme.loop = true;
+            theme.volume = 0.3;
+            theme.play();
         }
 
         function resultado(result, oponente) {
@@ -258,6 +272,10 @@
                 .catch(error => {
                     console.log('Error registering the Service Worker: ' + error);
                 });
+        }
+
+        function startGame() {
+
         }
     </script>
 </body>
