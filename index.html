@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jokenpô</title>
+    <link rel="manifest" href="manifest.webmanifest">
+    <style>
+        html {
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            font-weight: bold;
+        }
+
+        nav ul {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            list-style-type: none;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        nav ul {
+            display: flex;
+        }
+
+        nav ul li {
+            float: left;
+            list-style: none;
+            padding: 5px;
+            background-color: aqua;
+            text-align: center;
+            display: flex;
+            flex-direction: row;
+            flex: 1;
+            justify-content: center;
+            border: black solid 2px;
+            border-radius: 15px;
+            margin: 2px;
+        }
+
+        nav ul li:hover {
+            background-color: aquamarine;
+        }
+
+        .oponente {
+            width: 100%;
+            max-width: 600px;
+            height: 300px;
+            margin: 0 auto;
+            border: black solid 2px;
+            border-radius: 15px;
+            background-color: aqua;
+            margin-top: 5px;
+            margin-bottom: 5px;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            align-items: center;
+            flex-direction: column;
+            position: relative;
+        }
+
+        #resultado {
+            font-size: 25px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .pontuacao {
+            display: flex;
+            flex-direction: row;
+            padding-left: 10px;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .moedas {
+            display: flex;
+            flex-direction: row;
+            padding-right: 10px;
+            position: absolute;
+            top: 0;
+            right: 0;
+        }
+
+        .pontuacao img,
+        .moedas img {
+            width: 20px;
+        }
+
+        .pontuacao .label,
+        .moedas .label {
+            background: #fff;
+            border: solid 2px rgb(181, 181, 181);
+            margin: 5px;
+            padding: 3px;
+            border-radius: 30px;
+            width: 60px;
+            display: flex;
+            justify-content: space-around;
+            align-content: center;
+            align-items: center;
+        }
+
+        .resultadoLabel {
+            background: #fff;
+            border: solid 2px rgb(0, 0, 0);
+            margin: 5px;
+            padding: 3px 10px;
+            border-radius: 30px;
+        }
+
+        .empate {
+            background: rgb(0, 0, 0);
+            color: #fff;
+        }
+
+        .ganhou {
+            background: rgb(9, 170, 0);
+            color: #fff;
+        }
+
+        .perdeu {
+            background: rgb(214, 0, 0);
+            color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+    <section>
+        <div class="oponente">
+            <div class="pontuacao">
+                <div class="label"><img src="./img/star.png"><span id="vitorias">0</span></div>
+                <div class="label"><img src="./img/defeat.png"><span id="derrotas">0</span></div>
+            </div>
+            <div class="moedas">
+                <div class="label"><img src="./img/coins.png"><span id="moedas">20</span></div>
+            </div>
+            <img src="./img/bot.png" alt="oponente" id="oponenteIMG">
+            <br>
+            <span id="resultado">JOKENPÔ</span>
+        </div>
+        <nav>
+            <ul>
+                <li onclick="userEscolhe(0)"><img src="./img/pedra.png" alt="pedra"></li>
+                <li onclick="userEscolhe(1)"><img src="./img/papel.png" alt="papel"></li>
+                <li onclick="userEscolhe(2)"><img src="./img/tesoura.png" alt="tesoura"></li>
+            </ul>
+        </nav>
+
+    </section>
+    <script>
+
+        var vitorias = 0;
+        var derrotas = 0;
+        var moedas = 20;
+        var ingame = 0;
+
+        var imgs = ["./img/pedra.png", "./img/papel.png", "./img/tesoura.png"]
+        var palavra = ["JO", "-KEN", "-PÔ"]
+
+        function semMoedas() {
+            alert('Você está sem moedas!');
+        }
+
+        function resultado(result, oponente) {
+            let resultadoTXT = '';
+            switch (result) {
+                case 0:
+                    resultadoTXT = '<span class="resultadoLabel empate" >empatou</span>';
+                    break;
+                case 1:
+                    vitorias++;
+                    resultadoTXT = '<span class="resultadoLabel ganhou" >ganhou</span>';
+                    break;
+                case 2:
+                    derrotas++;
+                    resultadoTXT = '<span class="resultadoLabel perdeu" >perdeu</span>';
+                    break;
+            }
+            document.getElementById('resultado').innerHTML = '...';
+            setTimeout(() => {
+                document.getElementById('oponenteIMG').src = imgs[oponente];
+                document.getElementById('resultado').innerHTML = resultadoTXT;
+                document.getElementById('vitorias').innerHTML = vitorias;
+                document.getElementById('derrotas').innerHTML = derrotas;
+                ingame = 0;
+            }, 1000);
+        }
+
+        var jokenpo = {
+            0: (oponente) => {
+                return oponente === 2 ? true : false;
+            },
+            1: (oponente) => {
+                return oponente === 0 ? true : false;
+            },
+            2: (oponente) => {
+                return oponente === 1 ? true : false;
+            }
+        }
+
+        function userEscolhe(usuario) {
+            if (moedas == 0) {
+                return semMoedas();
+            }
+            if (ingame == 0) {
+                moedas--;
+                document.getElementById('moedas').innerHTML = moedas;
+                ingame = 1;
+                document.getElementById('oponenteIMG').src = "./img/bot.png";
+                document.getElementById('resultado').innerHTML = 'START';
+                var i = 0;
+                var intervalor = setInterval(() => {
+                    if (i == 0) {
+                        document.getElementById('resultado').innerHTML = '';
+                    }
+                    oponente = i++;
+                    document.getElementById('oponenteIMG').src = imgs[oponente];
+                    document.getElementById('resultado').innerHTML += palavra[oponente];
+                    if (i == 3) {
+                        i = 0;
+                    }
+                }, 500);
+
+                setTimeout(() => {
+                    clearInterval(intervalor);
+                    const oponente = Math.floor(Math.random() * 3);
+
+                    document.getElementById('oponenteIMG').src = "./img/bot.png";
+                    if (Number(usuario) == Number(oponente)) {
+                        resultado(0, oponente);
+                    } else {
+                        if (jokenpo[usuario](oponente)) {
+                            resultado(1, oponente);
+                        } else {
+                            resultado(2, oponente);
+                        }
+                    }
+                }, 3500);
+            }
+        }
+
+
+
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker
+                .register('./sw.js')
+                .then(serviceWorker => {
+                    console.log('Service Worker registered: ' + serviceWorker);
+                })
+                .catch(error => {
+                    console.log('Error registering the Service Worker: ' + error);
+                });
+        }
+    </script>
+</body>
+
+</html>
