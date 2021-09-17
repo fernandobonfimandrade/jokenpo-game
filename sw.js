@@ -1,5 +1,5 @@
 const staticCacheName = 'site-static-v18';
-const assets = ['img/star.png','img/defeat.png','img/coins.png','img/bot.png','img/pedra.png','img/papel.png','img/tesoura.png'];
+const assets = ['jokenpo-game/index.html', 'jokenpo-game/img/star.png', 'jokenpo-game/img/defeat.png', 'jokenpo-game/img/coins.png', 'jokenpo-game/img/bot.png', 'jokenpo-game/img/pedra.png', 'jokenpo-game/img/papel.png', 'jokenpo-game/img/tesoura.png'];
 self.addEventListener('install', evt => {
     evt.waitUntil(caches.open(staticCacheName).then((cache) => {
         console.log('Cacheando arquivos estaticos...');
