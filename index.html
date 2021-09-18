@@ -66,8 +66,20 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            align-items: center;
             flex-direction: column;
+            position: relative;
+        }
+        .bag {
+            width: 100%;
+            max-width: 600px;
+            height: 250px;
+            margin: 0 auto;
+            border: rgb(0 0 0) solid 2px;
+            border-radius: 15px;
+            background-color: rgb(148 0 0);
+            margin-top: 5px;
+            margin-bottom: 5px;
+            text-align: center;
             position: relative;
         }
 
@@ -114,7 +126,7 @@
             align-items: center;
         }
 
-        .resultadoLabel {
+        .resultadoLabel,#resultado {
             background: #fff;
             border: solid 2px rgb(0, 0, 0);
             margin: 5px;
@@ -167,6 +179,10 @@
 
         nav.menuInicial {
             background-color: rgb(255, 0, 0);
+            background-image: url('./img/icon-512x512.png');
+            background-repeat: no-repeat;
+            background-position-y: bottom;
+            background-size: 30%;
             border: solid 8px rgb(57, 87, 255);
             width: 60%;
             height: 70%;
@@ -215,6 +231,22 @@
         .menuHide {
             position: relative;
             animation: menunicialUP .5s ease-in forwards;
+        }
+
+        .premios:hover{
+            background-color: #000;
+            border-radius: 50px;
+        }
+        .premios{
+            cursor: pointer;
+            font-size: 40px;
+            float: left;
+        }
+
+        .bag h4 {
+            margin: 2px 0px;
+            padding-bottom: 3px;
+            border-bottom: solid 3px;
         }
 
         /* animações */
@@ -283,13 +315,41 @@
                 <li onclick="userEscolhe(2)"><img src="./img/tesoura.png" alt="tesoura"></li>
             </ul>
         </nav>
-
+        <div class="bag" >
+            <h4>Inventário</h4>
+            <div id="bag"></div>
+        </div>
     </section>
     <script>
         var vitorias = 0;
         var derrotas = 0;
         var moedas = 20;
         var ingame = 0;
+        var premios = ['<span title="Vender" class="premios" onclick="vender(1,this)" >🍌</span>',
+                    '<span title="Vender" class="premios" onclick="vender(1,this)" >🍎</span>',
+                    '<span title="Vender" class="premios" onclick="vender(1,this)" >🍏</span>',
+                    '<span title="Vender" class="premios" onclick="vender(2,this)" >🍊</span>',
+                    '<span title="Vender" class="premios" onclick="vender(2,this)" >🧁</span>',
+                    '<span title="Vender" class="premios" onclick="vender(1,this0)" >🛵</span>',
+                    '<span title="Vender" class="premios" onclick="vender(1,this5)" >🚗</span>',
+                    '<span title="Vender" class="premios" onclick="vender(1,this)" >🥕</span>',
+                    '<span title="Vender" class="premios" onclick="vender(2,this)" >🍇</span>',
+                    '<span title="Vender" class="premios" onclick="vender(3,this)" >🍣</span>',
+                    '<span title="Vender" class="premios" onclick="vender(1,this)" >🍓</span>',
+                    '<span title="Vender" class="premios" onclick="vender(2,this)" >🍩</span>',
+                    '<span title="Vender" class="premios" onclick="vender(2,this)" >🍿</span>',
+                    '<span title="Vender" class="premios" onclick="vender(2,this)" >🍟</span>',
+                    '<span title="Vender" class="premios" onclick="vender(1,this)" >🍍</span>',
+                    '<span title="Vender" class="premios" onclick="vender(2,this)" >🧀</span>',
+                    '<span title="Vender" class="premios" onclick="vender(3,this)" >🍕</span>',
+                    '<span title="Vender" class="premios" onclick="vender(3,this)" >🍚</span>',
+                    '<span title="Vender" class="premios" onclick="vender(5,this)" >🌭</span>',
+                    '<span title="Vender" class="premios" onclick="vender(1,this)" >🍬</span>',
+                    '<span title="Vender" class="premios" onclick="vender(5,this)" >🍺</span>',
+                    '<span title="Vender" class="premios" onclick="vender(2,this)" >🍭</span>',
+                    '<span title="Vender" class="premios" onclick="vender(4,this)" >🍫</span>',
+                    '<span title="Vender" class="premios" onclick="vender(6,this)" >🍔</span>']
+
         const theme = new Audio('sounds/theme.mp3');
         var img=new Image();
         img.src='./img/batleBegin.gif';
@@ -318,6 +378,12 @@
             theme.play();
         }
 
+        function vender(valor, el){
+            moedas += valor;
+            document.getElementById('moedas').innerHTML = moedas;
+            el.remove();
+        }
+
         function resultado(result, oponente) {
             let resultadoTXT = '';
             switch (result) {
@@ -326,6 +392,9 @@
                     break;
                 case 1:
                     vitorias++;
+                    setTimeout(() => {
+                        document.getElementById('bag').innerHTML = document.getElementById('bag').innerHTML + premios[Math.floor(Math.random() * 24)];
+                    }, 1000);
                     resultadoTXT = '<span class="resultadoLabel ganhou" >ganhou</span>';
                     break;
                 case 2:
@@ -363,7 +432,7 @@
                 moedas--;
                 document.getElementById('moedas').innerHTML = moedas;
                 ingame = 1;
-                document.getElementById('oponenteIMG').src = "./img/handsBalon.gif";
+                document.getElementById('oponenteIMG').src = "./img/star.png";
                 document.getElementById('resultado').innerHTML = 'START';
                 var i = 0;
                 var intervalor = setInterval(() => {
@@ -371,6 +440,7 @@
                         document.getElementById('resultado').innerHTML = '';
                     }
                     oponente = i++;
+                    document.getElementById('oponenteIMG').src = imgs[oponente];
                     document.getElementById('resultado').innerHTML += palavra[oponente];
                     if (i == 3) {
                         i = 0;
@@ -380,8 +450,7 @@
                 setTimeout(() => {
                     clearInterval(intervalor);
                     const oponente = Math.floor(Math.random() * 3);
-
-                    // document.getElementById('oponenteIMG').src = "./img/start.png";
+                    document.getElementById('oponenteIMG').src = "./img/interrogation.png";
                     if (Number(usuario) == Number(oponente)) {
                         resultado(0, oponente);
                     } else {
@@ -394,8 +463,6 @@
                 }, 3500);
             }
         }
-
-
 
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker

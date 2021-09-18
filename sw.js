@@ -1,4 +1,4 @@
-const staticCacheName = 'site-static-v1';
+const staticCacheName = 'site-static-v3';
 const assets = ['jokenpo-game/index.html', 
 'jokenpo-game/img/star.png', 
 'jokenpo-game/img/defeat.png', 
@@ -6,7 +6,7 @@ const assets = ['jokenpo-game/index.html',
 'jokenpo-game/img/bot.png', 
 'jokenpo-game/img/pedra.png', 
 'jokenpo-game/img/papel.png', 
-'jokenpo-game/img/handsBalon.gif', 
+'jokenpo-game/img/interrogation.png', 
 'jokenpo-game/img/batleBegin.gif', 
 'jokenpo-game/img/fight.gif', 
 'jokenpo-game/sounds/theme.mp3', 
