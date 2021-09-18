@@ -14,7 +14,8 @@
         }
 
         body {
-            background: #20defa;
+            background: rgb(255, 210, 30);
+            background-image: url('./img/bgHand.jpg');
         }
 
         nav ul {
@@ -34,19 +35,20 @@
             float: left;
             list-style: none;
             padding: 5px;
-            background-color: rgb(255, 255, 255);
+            background-color: rgb(255, 250, 219);
             text-align: center;
             display: flex;
             flex-direction: row;
             flex: 1;
             justify-content: center;
-            border: black solid 2px;
+            border: #a98307 solid 2px;
             border-radius: 15px;
             margin: 2px;
+            cursor: pointer;
         }
 
         nav ul li:hover {
-            background-color: aquamarine;
+            background-color: #a9ad6c;
         }
 
         .cena {
@@ -54,12 +56,12 @@
             max-width: 600px;
             height: 250px;
             margin: 0 auto;
-            border: black solid 2px;
+            border: #a98307  solid 2px;
             background-repeat: no-repeat;
             background-position: bottom;
             background-size: cover;
             border-radius: 15px;
-            background-color: aqua;
+            background-color: rgb(0, 0, 0);
             margin-top: 5px;
             margin-bottom: 5px;
             text-align: center;
@@ -74,7 +76,7 @@
             max-width: 600px;
             height: 250px;
             margin: 0 auto;
-            border: rgb(0 0 0) solid 2px;
+            border: #a98307 solid 2px;
             border-radius: 15px;
             background-color: rgb(148 0 0);
             margin-top: 5px;
@@ -127,11 +129,12 @@
         }
 
         .resultadoLabel,#resultado {
-            background: #fff;
-            border: solid 2px rgb(0, 0, 0);
+            background: #3278e0;
+            border: solid 2px rgb(10 74 84);
             margin: 5px;
             padding: 3px 10px;
             border-radius: 30px;
+            color: #fff;
         }
 
         .empate {
@@ -161,6 +164,7 @@
             flex: 1;
             justify-content: center;
             align-items: center;
+            overflow: hidden;
         }
 
         .menuInicialBG {
@@ -214,7 +218,6 @@
             padding: 10px 0px;
             background-color: rgb(29, 189, 42);
             border: solid 3px rgb(255, 255, 255);
-            ;
             border-radius: 30px;
             color: #fff;
             cursor: pointer;
@@ -234,19 +237,21 @@
         }
 
         .premios:hover{
-            background-color: #000;
-            border-radius: 50px;
+            background-color: #d3bd50;
         }
         .premios{
             cursor: pointer;
             font-size: 40px;
             float: left;
+            background-color: #ffec8d;
+            border-radius: 8px;
         }
 
         .bag h4 {
             margin: 2px 0px;
             padding-bottom: 3px;
             border-bottom: solid 3px;
+            color: #ffe393;
         }
 
         #bag{
@@ -271,7 +276,7 @@
 
         .menuBGHide {
             animation: menunicialBGDOWN .8s ease-in forwards;
-            border-top: solid 10px #000;
+            border-top: solid 50px rgb(20, 55, 255);
         }
 
         /* animações */
@@ -300,6 +305,11 @@
         </nav>
     </div>
     <section>
+        <nav class="escolhas">
+            <ul>
+                <li onclick="location.reload()">Reiniciar</li>
+            </ul>
+        </nav>
         <div class="cena">
             <div class="pontuacao">
                 <div class="label"><img src="./img/star.png"><span id="vitorias">0</span></div>
@@ -310,7 +320,7 @@
             </div>
             <img src="./img/start.png" alt="oponente" id="oponenteIMG">
             <br>
-            <span id="resultado">JANKENPON</span>
+            <span id="resultado">👇</span>
         </div>
         <nav class="escolhas">
             <ul>
