@@ -1,6 +1,6 @@
 {
-    "theme_color": "rgb(255, 210, 30)",
-    "background_color": "rgb(255, 210, 30)",
+    "theme_color": "#FFD21E",
+    "background_color": "#FFD21E",
     "display": "standalone",
     "scope": "/jokenpo-game/",
     "start_url": "/jokenpo-game/index.html?launcher=true",
