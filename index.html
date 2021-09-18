@@ -9,13 +9,62 @@
     <link rel="manifest" href="manifest.webmanifest">
     <style>
         html {
-            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            font-family: "Comic Sans MS", "Comic Sans", cursive;
             font-weight: bold;
         }
 
         body {
             background: rgb(255, 210, 30);
             background-image: url('./img/bgHand.jpg');
+        }
+
+        .modal{
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            justify-content: center;
+            align-items: center;
+            background-color: rgba(0, 0, 0, 0.679);
+            z-index: 10;
+        }
+        .modal-body{
+            background-color: rgb(255, 0, 0);
+            border: solid 8px rgb(57, 87, 255);
+            width: 60%;
+            display: flex;
+            z-index: 11;
+            position: relative;
+            border-radius: 30px;
+        }
+        .modal-close {
+            position: absolute;
+            top: -33px;
+            right: -33px;
+            width: 25px;
+            height: 25px;
+            padding: 10px;
+            background: #ffcf23;
+            border: solid 7px #fff;
+            border-radius: 50px;
+            text-align: center;
+            font-size: 26px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-close:hover{
+            background: #ff2323;
+        }
+        #modal-text{
+            text-align: center;
+            font-size: 2em;
+            padding: 0px 45px;
+            color: #fff;
+            text-shadow: #000 2px 2px 2px;
         }
 
         nav ul {
@@ -301,7 +350,8 @@
             <h3>JANKENPON</h3>
             <ul>
                 <li onclick="startGame()">Iniciar</li>
-                <li onclick="regras()">Regras</li>
+                <li onclick="regrasDojogo()">Regras</li>
+                <li onclick="SobreJogo()">Sobre</li>
             </ul>
         </nav>
     </div>
@@ -335,6 +385,12 @@
             <div id="bag"></div>
         </div>
     </section>
+    <div class="modal" id="modal">
+        <div class="modal-body" >
+            <div class="modal-close" onclick="closeModal()" >X</div>
+            <h6 id="modal-text" ></h6>
+        </div>
+    </div>
     <script>
         var vitorias = 0;
         var derrotas = 0;
@@ -365,17 +421,34 @@
                     '<span title="Vender" class="premios" onclick="vender(4,this)" >🍫</span>',
                     '<span title="Vender" class="premios" onclick="vender(6,this)" >🍔</span>']
 
-        const theme = new Audio('sounds/theme.mp3');
+        const aud_theme = new Audio('sounds/theme.mp3');
+        const aud_jankenpon = new Audio('sounds/jankenpon.mp3');
         var img=new Image();
         img.src='./img/batleBegin.gif';
         var img2=new Image();
         img2.src='./img/fight.gif';
 
         var imgs = ["./img/pedra.png", "./img/papel.png", "./img/tesoura.png"]
-        var palavra = ["JAN", "-KEN", "-PON"]
+
+
+        function openModal(text){
+            document.getElementById('modal').style.display = 'flex';
+            document.getElementById('modal-text').innerHTML = text;
+        }
+
+        function closeModal(){
+            document.getElementById('modal').style.display = 'none';
+            document.getElementById('modal-text').innerHTML = '';
+        }
 
         function semMoedas() {
-            alert('Você está sem moedas!');
+            openModal('Você está sem moedas!<br>Se tiver itens venda eles para conseguir mais moedas, ou reinicie o jogo.');
+        }
+        function regrasDojogo() {
+            openModal('Clique em Pedra (👊), Papel (✋) ou Tesoura (✌) para iniciar a rodada.<br>Você sempre vai iniciar o jogo com '+moedas+' moedas, cada jogada gasta 1 moeda.<br>Ganhando jogada vc recebe um item, que pode ser vendido para conseguir mais moedas.<br>Se divirta!');
+        }
+        function SobreJogo() {
+            openModal('Jogo desenvolvido por Fernando Bonfim como atividade de aula da Disciplina Programação WEB na FATEC Sorocaba!');
         }
 
         function hasClass(ele, cls) {
@@ -387,10 +460,10 @@
         }
 
 
-        function playTheme() {
-            theme.loop = true;
-            theme.volume = 0.3;
-            theme.play();
+        function playAudio(audio,loop) {
+            audio.loop = loop;
+            audio.volume = 0.3;
+            audio.play();
         }
 
         function vender(valor, el){
@@ -421,6 +494,7 @@
             setTimeout(() => {
                 document.getElementById('oponenteIMG').src = imgs[oponente];
                 document.getElementById('resultado').innerHTML = resultadoTXT;
+                document.getElementById('resultado').style.display = "block";
                 document.getElementById('vitorias').innerHTML = vitorias;
                 document.getElementById('derrotas').innerHTML = derrotas;
                 ingame = 0;
@@ -445,27 +519,19 @@
             }
             if (ingame == 0) {
                 moedas--;
+                document.getElementById('resultado').innerHTML = '';
                 document.getElementById('moedas').innerHTML = moedas;
                 ingame = 1;
-                document.getElementById('oponenteIMG').src = "./img/star.png";
-                document.getElementById('resultado').innerHTML = 'START';
-                var i = 0;
-                var intervalor = setInterval(() => {
-                    if (i == 0) {
-                        document.getElementById('resultado').innerHTML = '';
-                    }
-                    oponente = i++;
-                    document.getElementById('oponenteIMG').src = imgs[oponente];
-                    document.getElementById('resultado').innerHTML += palavra[oponente];
-                    if (i == 3) {
-                        i = 0;
-                    }
-                }, 500);
+                document.getElementById('oponenteIMG').style.display = "none";
+                document.getElementById('resultado').style.display = "none";
+                document.getElementsByClassName("cena")[0].style.backgroundImage = "url('./img/jankenpon.gif')";
+                playAudio(aud_jankenpon,false)
 
                 setTimeout(() => {
-                    clearInterval(intervalor);
+                    document.getElementsByClassName("cena")[0].style.backgroundImage = "url('./img/fight.gif')";
                     const oponente = Math.floor(Math.random() * 3);
                     document.getElementById('oponenteIMG').src = "./img/interrogation.png";
+                    document.getElementById('oponenteIMG').style.display = "block";
                     if (Number(usuario) == Number(oponente)) {
                         resultado(0, oponente);
                     } else {
@@ -475,7 +541,7 @@
                             resultado(2, oponente);
                         }
                     }
-                }, 3500);
+                }, 2100);
             }
         }
 
@@ -491,7 +557,7 @@
         }
 
         function startGame() {
-            playTheme();
+            playAudio(aud_theme,true);
             addClass(document.getElementsByClassName("menuInicialBG")[0], 'menuBGHide');
             addClass(document.getElementsByClassName("menuInicial")[0], 'menuHide');
             setTimeout(() => {

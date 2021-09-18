@@ -1,4 +1,4 @@
-const staticCacheName = 'site-static-v6';
+const staticCacheName = 'site-static-v7';
 const assets = ['jokenpo-game/index.html', 
 'jokenpo-game/img/star.png', 
 'jokenpo-game/img/defeat.png', 
@@ -8,12 +8,14 @@ const assets = ['jokenpo-game/index.html',
 'jokenpo-game/img/papel.png', 
 'jokenpo-game/img/interrogation.png', 
 'jokenpo-game/img/batleBegin.gif', 
+'jokenpo-game/img/jankenpon.gif', 
 'jokenpo-game/img/fight.gif', 
 'jokenpo-game/sounds/theme.mp3', 
+'jokenpo-game/sounds/jankenpon.mp3', 
 'jokenpo-game/img/tesoura.png'];
 self.addEventListener('install', evt => {
     evt.waitUntil(caches.open(staticCacheName).then((cache) => {
-        console.log('Cacheando arquivos estaticos v1...');
+        console.log('Cacheando arquivos estaticos...');
         cache.addAll(assets);
     }));
 });
